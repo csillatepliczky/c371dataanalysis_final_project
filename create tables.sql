@@ -1,3 +1,27 @@
+-- Creating trigger for the payment.amount column
+
+CREATE OR REPLACE FUNCTION insert_amount()
+RETURNS TRIGGER
+AS
+$$
+BEGIN
+    IF NEW.amount> 0 THEN
+    		new.amount = 0;
+    END IF;
+
+RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_amount
+  BEFORE INSERT
+  ON payment_cleaned
+  FOR EACH ROW
+  EXECUTE PROCEDURE insert_amount();
+
+
+-- Creating tables for the cleaned data
+
 CREATE TABLE IF NOT EXISTS country_cleaned 
 (country_id SERIAL PRIMARY KEY, 
 country VARCHAR(255) NOT NULL);
@@ -32,6 +56,14 @@ active INT NOT NULL,
 CONSTRAINT fk_address
 FOREIGN KEY(address_id) 
 REFERENCES address_cleaned(address_id));
+
+
+CREATE TABLE IF NOT EXISTS inventory_cleaned 
+(inventory_id SERIAL PRIMARY KEY, 
+film_id SMALLINT NOT NULL
+CONSTRAINT fk_film
+FOREIGN KEY(film_id) 
+REFERENCES film_cleaned(film_id));
 
 
 CREATE TABLE IF NOT EXISTS rental_cleaned
@@ -114,23 +146,9 @@ FOREIGN KEY(film_id)
 REFERENCES film_cleaned(film_id));
 
 
-
-CREATE OR REPLACE FUNCTION insert_amount()
-RETURNS TRIGGER
-AS
-$$
-BEGIN
-    IF NEW.amount> 0 THEN
-    		new.amount = 0;
-    END IF;
-
-RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;
-
-
-CREATE TRIGGER trigger_amount
-  BEFORE INSERT
-  ON payment_cleaned
-  FOR EACH ROW
-  EXECUTE PROCEDURE insert_amount();
+CREATE TABLE IF NOT EXISTS inventory_cleaned
+(inventory_id SERIAL PRIMARY KEY,
+film_id SMALLINT NOT NULL, 
+CONSTRAINT fk_film
+FOREIGN KEY(film_id) 
+REFERENCES film_cleaned(film_id));
