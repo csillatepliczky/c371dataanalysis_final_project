@@ -9,7 +9,7 @@ This is my final project about data transformation, data cleaning, data analysis
 
 The original database contained 15 tables with some redundant data which I didn't plan to use in my analysis. So as the first step I created new tables in the **create_tables.sql** file for the cleaned data, and I also created a trigger for the amount column of the payment table. This trigger activates before each insertion into the column and if a negative value is to be inserted, it sets the value to 0, ensuring that no negative value would be inserted into this column. I also omitted two tables from the original dataset (tables containing store and staff information) and also some columns from the tables (mostly foreign keys referring to the omitted tables and a last_update column from each table containing only a timestamp of the last update).
 
-The ER diagram for teh cleaned dataset can be seen in the **ER_diagram_dvdrental_cleaned.png** file.
+The ER diagram for teh cleaned dataset can be found in the **ER_diagram_dvdrental_cleaned.png** file.
 
 In the **clean_data.ipynb** file I established a connection to both the old and the new database using the ConnectToDatabase class, then I loaded all the tables one by one into a dataframe. I created a CleanData class which contains four functions to clean the data:
 - one for removing the white spaces from the values
