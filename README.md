@@ -11,10 +11,10 @@ The original database contained 15 tables with some redundant data which I didn'
 
 The ER diagram for the cleaned dataset can be found in the **ER_diagram_dvdrental_cleaned.png** file.
 
-In the **clean_data.ipynb** file I established a connection to both the old and the new database using the ConnectToDatabase class, then I loaded all the tables one by one into a dataframe. I created a CleanData class which contains four functions to clean the data:
+In the **clean_data.ipynb** file I established a connection to both the old and the new database using the connect_to_database function, then I loaded all the tables one by one into a dataframe. I created a CleanData class which contains four functions to clean the data:
 - one for removing the white spaces from the values
 - one to replace NaN values with 0 in the numerical columns
-- one that creates a full_name column from a first_name and last_name columns if the dataframe has first_name and last_name columns
+- one that creates a new column from two columns which can be specified in the parameters (mostly used to create full names from first and last name)
 - one that creates year, month and day columns from a date column that can be specified in the arguments
 I ran the cleaning functions on all the dataframes and loaded them into the cleaned database after that.
 
